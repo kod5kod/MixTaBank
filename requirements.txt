@@ -1,0 +1,7 @@
+ipython
+ipykernel
+pyarrow
+polars
+ucimlrepo
+kagglehub
+kaggle

@@ -1,0 +1,103 @@
+{
+    "bank-marketing": {
+    "uci_id": 222,
+    "name": "Bank Marketing",
+    "repository_url": "https://archive.ics.uci.edu/dataset/222/bank+marketing",
+    "data_url": "https://archive.ics.uci.edu/static/public/222/data.csv",
+    "target_col": "y",
+    "prediction_task": "binary_classification",
+    "shape": [45211, 17],
+    "types": {"intCols": 7, "floatCols": 10, "boolCols": 1, "catCols": 10}
+    },
+    "adult-census": {
+    "uci_id": 2,
+    "name": "Adult",
+    "repository_url": "https://archive.ics.uci.edu/dataset/2/adult",
+    "data_url": "https://archive.ics.uci.edu/static/public/2/adult.data",
+    "target_col": "income",
+    "prediction_task": "binary_classification",
+    "shape": [48842, 15]
+    },
+    "credit-defualt-taiwan": {
+    "uci_id": 350,
+    "name": "Default of Credit Card Clients",
+    "repository_url": "https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients",
+    "data_url": "https://archive.ics.uci.edu/static/public/350/default+of+credit+card+clients.data",
+    "target_col": "default payment next month",
+    "prediction_task": "binary_classification",
+    "shape": [30000, 24]
+    },
+    "cdc_diabetes": {
+    "uci_id": 891,
+    "name": "CDC Diabetes Health Indicators",
+    "repository_url": "https://archive.ics.uci.edu/dataset/891/diabetes",
+    "data_url": "https://archive.ics.uci.edu/static/public/891/diabetes.data",
+    "target_col": "Diabetes_binary",
+    "prediction_task": "binary_classification",
+    "shape": [253, 680, 21]
+    },
+    "census-income_full": {
+    "uci_id": 117,
+    "name": "Census Income (KDD)",
+    "repository_url": "https://archive.ics.uci.edu/dataset/117/census+income+kdd",
+    "data_url": "https://archive.ics.uci.edu/static/public/117/census+income+kdd.data",
+    "target_col": "income",
+    "prediction_task": "binary_classification",
+    "shape": [299285, 41]
+    },
+    "support2": {
+    "uci_id": 880,
+    "name": "SUPPORT2",
+    "repository_url": "https://archive.ics.uci.edu/dataset/880/support2",
+    "data_url": "https://archive.ics.uci.edu/static/public/880/support2.data",
+    "target_col": "death",
+    "prediction_task": "binary_classification",
+    "shape": [9105, 21]
+    },
+    "diabetes_130us": {
+    "uci_id": 296,
+    "name": "Diabetes 130-US hospitals for years 1999-2008",
+    "repository_url": "https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008",
+    "data_url": "https://archive.ics.uci.edu/static/public/296/diabetes+130-us+hospitals+for+years+1999-2008.data",
+    "target_col": "readmitted",
+    "prediction_task": "binary_classification",
+    "shape": [130, 50],
+    "types": {"numCols": 27, "catCols": 23}
+    },
+    "nursery": {
+    "uci_id": 76,
+    "name": "Nursery",
+    "repository_url": "https://archive.ics.uci.edu/dataset/76/nursery",
+    "data_url": "https://archive.ics.uci.edu/dataset/76/nursery.data",
+    "target_col": "class",
+    "prediction_task": "multi_class_classification",
+    "shape": [12960, 8]
+    },
+    "taiwanese_bankruptcy": {
+    "uci_id": 572,
+    "name": "Taiwanese Bankruptcy",
+    "repository_url": "https://archive.ics.uci.edu/dataset/572/taiwanese+bankruptcy+prediction",
+    "data_url": "https://archive.ics.uci.edu/dataset/572/taiwanese+bankruptcy+prediction.data",
+    "target_col": "Bankrupt?",
+    "prediction_task": "binary_classification",
+    "shape": [6819, 96]
+    },
+    "apartment_rent_classified": {
+    "uci_id": 555,
+    "name": "Apartment Rent Classified",
+    "repository_url": "https://archive.ics.uci.edu/dataset/555/apartment+for+rent+classified",
+    "data_url": "https://archive.ics.uci.edu/dataset/555/apartment+for+rent+classified.data",
+    "target_col": ["square_feet", "price"],
+    "prediction_task": "regression",
+    "shape": [99826, 21]
+    },
+    "covertype": {
+    "uci_id": 31,
+    "name": "Covertype",
+    "repository_url": "https://archive.ics.uci.edu/dataset/31/covertype",
+    "data_url": "https://archive.ics.uci.edu/dataset/31/covertype.data",
+    "target_col": "Cover_Type",
+    "prediction_task": "multi_class_classification",
+    "shape": [581012, 55]
+    }
+}
