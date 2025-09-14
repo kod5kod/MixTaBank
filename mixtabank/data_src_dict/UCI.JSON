@@ -7,7 +7,8 @@
     "target_col": "y",
     "prediction_task": "binary_classification",
     "shape": [45211, 17],
-    "types": {"intCols": 7, "floatCols": 10, "boolCols": 1, "catCols": 10}
+    "types": {"intCols": 7, "floatCols": 0, "bool/binCols": 5, "multi-classCols": 6},
+    "total_cardinality": 46
     },
     "adult-census": {
     "uci_id": 2,
@@ -16,16 +17,20 @@
     "data_url": "https://archive.ics.uci.edu/static/public/2/adult.data",
     "target_col": "income",
     "prediction_task": "binary_classification",
-    "shape": [48842, 15]
+    "shape": [48842, 15],
+    "types": {"intCols": 6, "floatCols": 0, "bool/binCols": 2, "multi-classCols": 7},
+    "total_cardinality": 107
     },
     "credit-defualt-taiwan": {
     "uci_id": 350,
     "name": "Default of Credit Card Clients",
     "repository_url": "https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients",
     "data_url": "https://archive.ics.uci.edu/static/public/350/default+of+credit+card+clients.data",
-    "target_col": "default payment next month",
+    "target_col": "Y",
     "prediction_task": "binary_classification",
-    "shape": [30000, 24]
+    "shape": [30000, 24],
+    "types": {"intCols": 20, "floatCols": 0, "bool/binCols": 2, "multi-classCols": 2},
+    "total_cardinality": 15
     },
     "cdc_diabetes": {
     "uci_id": 891,
@@ -34,7 +39,9 @@
     "data_url": "https://archive.ics.uci.edu/static/public/891/diabetes.data",
     "target_col": "Diabetes_binary",
     "prediction_task": "binary_classification",
-    "shape": [253, 680, 21]
+    "shape": [253680, 22],
+    "types": {"intCols": 7, "floatCols": 0, "bool/binCols": 15, "multi-classCols": 0},
+    "total_cardinality": 30
     },
     "census-income_full": {
     "uci_id": 117,
@@ -43,7 +50,9 @@
     "data_url": "https://archive.ics.uci.edu/static/public/117/census+income+kdd.data",
     "target_col": "income",
     "prediction_task": "binary_classification",
-    "shape": [299285, 41]
+    "shape": [199523, 42],
+    "types": {"intCols": 12, "floatCols": 12, "bool/binCols": 2, "multi-classCols": 27},
+    "total_cardinality": 398
     },
     "support2": {
     "uci_id": 880,
@@ -52,7 +61,9 @@
     "data_url": "https://archive.ics.uci.edu/static/public/880/support2.data",
     "target_col": "death",
     "prediction_task": "binary_classification",
-    "shape": [9105, 21]
+    "shape": [9105, 45],    
+    "types": {"intCols": 6, "floatCols": 31, "bool/binCols": 1, "multi-classCols": 7},
+    "total_cardinality": 38
     },
     "diabetes_130us": {
     "uci_id": 296,
@@ -61,8 +72,9 @@
     "data_url": "https://archive.ics.uci.edu/static/public/296/diabetes+130-us+hospitals+for+years+1999-2008.data",
     "target_col": "readmitted",
     "prediction_task": "binary_classification",
-    "shape": [130, 50],
-    "types": {"numCols": 27, "catCols": 23}
+    "shape": [101766, 48],
+    "types": {"intCols": 11, "floatCols": 0, "bool/binCols": 9, "multi-classCols": 26},
+    "total_cardinality": 2462
     },
     "nursery": {
     "uci_id": 76,
@@ -71,7 +83,9 @@
     "data_url": "https://archive.ics.uci.edu/dataset/76/nursery.data",
     "target_col": "class",
     "prediction_task": "multi_class_classification",
-    "shape": [12960, 8]
+    "shape": [12960, 9],
+    "types": {"intCols": 0, "floatCols": 0, "bool/binCols": 1, "multi-classCols": 8},
+    "total_cardinality": 32
     },
     "taiwanese_bankruptcy": {
     "uci_id": 572,
@@ -80,7 +94,9 @@
     "data_url": "https://archive.ics.uci.edu/dataset/572/taiwanese+bankruptcy+prediction.data",
     "target_col": "Bankrupt?",
     "prediction_task": "binary_classification",
-    "shape": [6819, 96]
+    "shape": [6819, 95],
+    "types": {"intCols": 0, "floatCols": 93, "bool/binCols": 2, "multi-classCols": 0},
+    "total_cardinality": 4
     },
     "apartment_rent_classified": {
     "uci_id": 555,
@@ -89,7 +105,9 @@
     "data_url": "https://archive.ics.uci.edu/dataset/555/apartment+for+rent+classified.data",
     "target_col": ["square_feet", "price"],
     "prediction_task": "regression",
-    "shape": [99826, 21]
+    "shape": [99826, 14],
+    "types": {"intCols": 2, "floatCols": 2, "bool/binCols": 0, "multi-classCols": 10},
+    "total_cardinality": 4
     },
     "covertype": {
     "uci_id": 31,
@@ -98,6 +116,8 @@
     "data_url": "https://archive.ics.uci.edu/dataset/31/covertype.data",
     "target_col": "Cover_Type",
     "prediction_task": "multi_class_classification",
-    "shape": [581012, 55]
+    "shape": [581012, 55],
+    "types": {"intCols": 11, "floatCols": 0, "bool/binCols": 43, "multi-classCols": 1},
+    "total_cardinality": 93
     }
 }
