@@ -90,6 +90,7 @@ df = mixtabank.load_uci("credit_default", source="polars") # or pandas
 | 11 | `cdc_diabetes` | Diabetes Health Indicators Dataset   | CSV    | UCI     | [link](https://archive.ics.uci.edu/dataset/891/diabetes) | Binary Classification | `Diabetes_binary` | 253,680  | 22 | 7 | 15 | 30 |
 | 12 | `mimic-iii` | Critical patients care information  | CSV | Kaggle | [link](https://www.kaggle.com/datasets/datuman/mimic-iii-tabular-limited-features) | Multiclass Classification | `DISCHARGE_LOCATION` | 556,617 | 11 | 3 | 8 | 693 |
 | 13 | `covertype` | Forest cover types based on attributes | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/31/covertype) | Multiclass Classification | `Cover_Type` | 581,012 | 55 | 11 | 44 | 93 |
+| 14 | `criteo-1m` | Criteo Ad Click Prediction (1M rows) | CSV | Kaggle | [link](https://www.kaggle.com/datasets/datuman/criteo-ad-click-limited-1m) | Binary Classification | `target` | 1,000,000 | 40 | 13 | 1 | 26 |
 
 
 
