@@ -34,13 +34,13 @@ cd mixtabank
 ## CONDA Env:
 `conda create -n mixtabank python=3.13`  
 `conda activate mixtabank`  
-`pip install -r [USER PATH]/requirements.txt`  
+`pip install -r [lib PATH]/requirements.txt`  
 
 ## Python's virtualenv:
 `virtualenv -p python313 mixtabank `  
 `source mixtabank/bin/activate` # for mac/linux  
 `.\mixtabank\Scripts\activate` # for windows    
-`pip install -r [USER PATH]/requirements.txt`
+`pip install -r [lib PATH]/requirements.txt`
 
 ##  iPython kernel support (optional):
 `ipython kernel install --user --name=mixtabank` # adding the kernel to jupyter notebook/lab
@@ -53,13 +53,28 @@ cd mixtabank
 
 ```python
 import mixtabank
+from mixtabank.src.utils import dataset_loader, get_df_info_pl, get_df_info_pd, pl_train_valid_test_split
 
 # Review curreted UCI datasets:
 mixtabank.uci_dict
+# Review curreted Kaggle datasets:
+mixtabank.kaggle_dict
 
-# load a UCI dataset:
-df = mixtabank.load_uci("credit_default", source="polars") # or pandas
+# load a UCI dataset (see `Dataset Guide` for other available datasets):
+adult_census_df, var_types, target_col_name, prediction_task = dataset_loader(
+    name="adult-census", source="uci", df_type="polars")
 
+# load a Kaggle dataset (see `Dataset Guide` for other available datasets):
+home_credit_df, var_types, target_col_name, prediction_task, metadata = dataset_loader(
+    name="home-credit", source="kaggle", df_type="pandas")
+
+# get pandas df info about a dataset:
+get_df_info_pd(df)
+# get polars df info about a dataset:
+get_df_info_pl(df)
+
+# Split into train, valid, and test sets:
+train, valid, test = pl_train_valid_test_split(df, splits=[0.7, 0.15, 0.15], seed=420)
 ```
 
 ---
@@ -75,7 +90,7 @@ df = mixtabank.load_uci("credit_default", source="polars") # or pandas
 
 ## 📁 Dataset Guide
 
-| # | Dataset          | Description                   | Format   | Source   | Link | Prediction Task | Target | # Rows | # Columns | # Num Features  | # Cat Features |  # Total Cardinality |
+| # | Dataset name         | Description                   | Format   | Source   | Link | Prediction Task | Target | # Rows | # Columns | # Num Features  | # Cat Features |  # Total Cardinality |
 | -- | ---------------- | ----------------------------- | -------- | -------- | ---- | --------------- | ------ | ------ | --------- | -------------- | -------------- | ----------- | 
 | 1 | `taiwanese_bankruptcy` | Taiwanese Bankruptcy Prediction | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/572/taiwanese+bankruptcy+prediction) | Binary Classification | `Bankrupt?` | 6,819 | 95 | 93 | 2 | 4 |
 | 2 | `support2` | Critically ill hospitalized patient records    | CSV    | UCI     | [link](https://archive.ics.uci.edu/dataset/880/support2) | Binary Classification | `death` | 9,105 | 45 | 37 | 8 | 38 |
@@ -108,7 +123,7 @@ df = mixtabank.load_uci("credit_default", source="polars") # or pandas
 
 ## 📚 Citation
 
-If you use this library or benchmark in your work, please cite:
+If you use this library or benchmark in your work, please cite.
 <!-- ```bibtex
 @article{your2025mixtabank,
   title={Grounding Tabular Generative Models in Reality: A Benchmark for Human-Centered Evaluation},
@@ -132,12 +147,19 @@ This project is licensed under the MIT License. See LICENSE for details.
   
 ## Changelog
 
+## 📌 0.03   2025-10-22
+* Added Kaggle datasets walkthrough 
+* Added train/test/valid splits
+* Added a quick-guide 
+
+
 ## 📌 0.02   2025-09-14
 * Added UCI datasets walkthrough 
 * Added summary table
 * Added `get_info` function for datasets
 * Data loaded is now source agnostic
 * Data loader supports `polars` and `pandas`
+
 
 ## 📌 0.01   2025-09-09
 * Initial release

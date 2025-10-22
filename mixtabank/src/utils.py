@@ -318,3 +318,33 @@ def get_df_info_pd(df):
         "numeric_stats": numeric_stats,
         "top_unique": df_top_unique,
     }
+
+
+def pl_train_valid_test_split(data, splits=[0.7, 0.15, 0.15], seed=420):
+    """Splits the polars dataset into training, validation, and testing sets.
+
+    Args:
+        data (pl.DataFrame): The input dataset.
+        seed (int): Random seed for reproducibility.
+
+    Returns:
+        tuple: A tuple containing the training, validation, and testing datasets.
+    """
+    # Set random seed for reproducibility
+    # pl.Config.set_global_seed(seed)
+
+    # Split the data into train, valid, and test sets
+
+    data_shuffled = data.sample(fraction=1.0, seed=seed).with_row_index()  # Shuffle and add index
+
+    train_frac, valid_frac, test_frac = splits
+    n_rows = data_shuffled.height
+
+    train_end = int(n_rows * train_frac)
+    valid_end = int(n_rows * (train_frac + valid_frac))
+
+    train_ids = data_shuffled.filter(pl.col("index") < train_end).drop("index")
+    valid_ids = data_shuffled.filter((pl.col("index") >= train_end) & (pl.col("index") < valid_end)).drop("index")
+    test_ids = data_shuffled.filter(pl.col("index") >= valid_end).drop("index")
+
+    return train_ids, valid_ids, test_ids
