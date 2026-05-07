@@ -96,16 +96,18 @@ train, valid, test = pl_train_valid_test_split(df, splits=[0.7, 0.15, 0.15], see
 | 2 | `support2` | Critically ill hospitalized patient records    | CSV    | UCI     | [link](https://archive.ics.uci.edu/dataset/880/support2) | Binary Classification | `death` | 9,105 | 45 | 37 | 8 | 38 |
 | 3 |`nursery` |  Rank applications for nursery schools | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/76/nursery) | Multiclass Classification | `class` | 12,960 | 9 | 0 | 9 | 32 |
 | 4 | `petfinder-tab` | Pet adoption data - tabular only  | CSV    | Kaggle   | [link](https://www.kaggle.com/competitions/petfinder-adoption-prediction/data) | Binary/multiclass Classification | `is_adopted` | 14,993 | 18 | 11 | 7 | 208 |
-| 5 | `credit-defualt-taiwan` | Default of Credit Card Clients   | CSV    | UCI     | [link](https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients) | Binary Classification | `Y` | 30,000 | 24 | 20 | 4 | 15 |
-| 6 | `bank-marketing` | Bank marketing data   | CSV    | UCI     | [link](https://archive.ics.uci.edu/dataset/222/bank+marketing) | Binary Classification | `y` | 45,211 | 17 | 7 | 11 | 46 |
-| 7 | `adult-census`           | Classic UCI census dataset    | CSV      | UCI     | [link](https://archive.ics.uci.edu/dataset/2/adult) | Binary Classification | `is_high_income` | 48,842 | 15 | 6 | 9 | 107 | 
-| 8 | `apartment_rent_classified` | Apartment Rent Classified | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/555/apartment+for+rent+classified) | regression | `square_feet`, `price` | 99,826 | 14 | 4 | 10 | 4 |
-| 9 | `diabetes_130us` | Diabetes 130-US hospitals for years 1999-2008   | CSV    | UCI     | [link](https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008) | Binary Classification | `readmitted` | 101,766  | 48 | 11 | 35 | 2,462 |
-| 10 | `home-credit` | Home Credit Default Risk   | CSV    | Kaggle     | [link](https://www.kaggle.com/datasets/datuman/home-credit-default-risk-train-data-tabular/) | Binary Classification | `TARGET` | 210,201  | 17 | 5 | 12 | 121 |
-| 11 | `cdc_diabetes` | Diabetes Health Indicators Dataset   | CSV    | UCI     | [link](https://archive.ics.uci.edu/dataset/891/diabetes) | Binary Classification | `Diabetes_binary` | 253,680  | 22 | 7 | 15 | 30 |
-| 12 | `mimic-iii` | Critical patients care information  | CSV | Kaggle | [link](https://www.kaggle.com/datasets/datuman/mimic-iii-tabular-limited-features) | Multiclass Classification | `DISCHARGE_LOCATION` | 556,617 | 11 | 3 | 8 | 693 |
-| 13 | `covertype` | Forest cover types based on attributes | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/31/covertype) | Multiclass Classification | `Cover_Type` | 581,012 | 55 | 11 | 44 | 93 |
-| 14 | `criteo-1m` | Criteo Ad Click Prediction (1M rows) | CSV | Kaggle | [link](https://www.kaggle.com/datasets/datuman/criteo-ad-click-limited-1m) | Binary Classification | `target` | 1,000,000 | 40 | 13 | 1 | 26 |
+| 5 | `magic` | Magic Gamma Telescope Data  | CSV    | Kaggle   | [link](https://archive.ics.uci.edu/dataset/159/magic+gamma+telescope) | Binary | `class` | 19,020 | 11 | 10 | 1 | 2 |
+| 6 | `credit-defualt-taiwan` | Default of Credit Card Clients   | CSV    | UCI     | [link](https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients) | Binary Classification | `Y` | 30,000 | 24 | 20 | 4 | 15 |
+| 7 | `beijing` |    | CSV    | UCI     | [link](https://archive.ics.uci.edu/dataset/381/beijing+pm2+5+data) | Regression | `pm2.5` | 41,757 | 11 | 10 | 1 | 4 |
+| 8 | `bank-marketing` | Bank marketing data   | CSV    | UCI     | [link](https://archive.ics.uci.edu/dataset/222/bank+marketing) | Binary Classification | `y` | 45,211 | 17 | 7 | 11 | 46 |
+| 9 | `adult-census`           | Classic UCI census dataset    | CSV      | UCI     | [link](https://archive.ics.uci.edu/dataset/2/adult) | Binary Classification | `is_high_income` | 48,842 | 15 | 6 | 9 | 107 | 
+| 10 | `apartment_rent_classified` | Apartment Rent Classified | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/555/apartment+for+rent+classified) | regression | `square_feet`, `price` | 99,826 | 14 | 4 | 10 | 4 |
+| 11 | `diabetes_130us` | Diabetes 130-US hospitals for years 1999-2008   | CSV    | UCI     | [link](https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008) | Multiclass Classification | `readmitted` | 101,766  | 48 | 11 | 35 | 2,462 |
+| 12 | `home-credit` | Home Credit Default Risk   | CSV    | Kaggle     | [link](https://www.kaggle.com/datasets/datuman/home-credit-default-risk-train-data-tabular/) | Binary Classification | `TARGET` | 210,201  | 17 | 5 | 12 | 121 |
+| 13 | `cdc_diabetes` | Diabetes Health Indicators Dataset   | CSV    | UCI     | [link](https://archive.ics.uci.edu/dataset/891/diabetes) | Binary Classification | `Diabetes_binary` | 253,680  | 22 | 7 | 15 | 44 |
+| 14 | `mimic-iii` | Critical patients care information  | CSV | Kaggle | [link](https://www.kaggle.com/datasets/datuman/mimic-iii-tabular-limited-features) | Multiclass Classification | `DISCHARGE_LOCATION` | 556,617 | 11 | 2 | 9 | 850 |
+| 15 | `covertype` | Forest cover types based on attributes | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/31/covertype) | Multiclass Classification | `Cover_Type` | 581,012 | 55 | 11 | 44 | 93 |
+| 16 | `criteo-1m` | Criteo Ad Click Prediction (1M rows) | CSV | Kaggle | [link](https://www.kaggle.com/datasets/datuman/criteo-ad-click-limited-1m) | Binary Classification | `target` | 959,140 | 17 | 6 | 11 | 14,244 |
 
 
 

@@ -321,6 +321,7 @@ def get_df_info_pd(df):
 
 
 def pl_train_valid_test_split(data, splits=[0.7, 0.15, 0.15], seed=420):
+    
     """Splits the polars dataset into training, validation, and testing sets.
 
     Args:
@@ -348,3 +349,46 @@ def pl_train_valid_test_split(data, splits=[0.7, 0.15, 0.15], seed=420):
     test_ids = data_shuffled.filter(pl.col("index") >= valid_end).drop("index")
 
     return train_ids, valid_ids, test_ids
+
+
+def get_pl_metadata(dataframe: pl.DataFrame) -> dict:
+    """
+    Get the types metadata of a Polars dataframe.
+
+    Args:
+        dataframe (pl.DataFrame): A Polars dataframe
+
+    Returns:
+        dict: A dict with type metadata information
+
+    Notes:
+        The metadata will be a dictionary with the column name as the key and a
+        dictionary with the type and subtype as the value. The type will be one
+        of ['categorical', 'numerical'] and the subtype will be one of
+        ['binary', 'multi'] or ['float', 'int'].
+    """
+    tmp = {}
+    metadata = {}
+
+    for col in dataframe.columns:
+        dtype = dataframe.schema[col]
+        col_data = dataframe[col].drop_nulls()
+
+        if dtype == pl.String:
+            unique_vals = col_data.unique()
+            if unique_vals.len() == 2:
+                tmp[col] = {"type": "categorical", "subtype": "binary"}
+            else:
+                tmp[col] = {"type": "categorical", "subtype": "multi"}
+
+        elif dtype in [pl.Float32, pl.Float64]:
+            tmp[col] = {"type": "numerical", "subtype": "float"}
+
+        elif dtype in [pl.Int8, pl.Int16, pl.Int32, pl.Int64, pl.UInt8, pl.UInt16, pl.UInt32, pl.UInt64]:
+            tmp[col] = {"type": "numerical", "subtype": "int"}
+
+        else:
+            print(f"Didn't match on any data type for column: {col}")
+
+    metadata["fields"] = tmp
+    return metadata
