@@ -7,7 +7,7 @@
 **MixTaBank** is a collection of heterogeneous mixed-type tabular datasets tailored for evaluating tabular generative models under realistic, human-centric conditions. Designed for both academic researchers and professional practitioners, this repository provides optimized, ready-to-use tabular data.
 
 ### ✨ Features
-- A curated set of real-world datasets from UCI and Kaggle.
+- A curated set of real-world datasets from UCI, Kaggle, and other sources.
 - Datasets varying in size, complexity, heterogeneity, and cardinality.
 - Optimized support for both **Polars** and **Pandas** dataframes.
 - Included utility scripts for data preparation, train/val/test splitting, and type conversion.
