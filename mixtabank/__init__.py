@@ -28,11 +28,6 @@ except json.JSONDecodeError:
     print(f"Error: Invalid JSON in {KAGGLE_DICT_FILE_PATH}")
 
 
-from .src.utils import (
-    dataset_loader,
-    get_df_info_pl,
-    get_df_info_pd,
-    pl_train_valid_test_split,
-    pd_train_valid_test_split,
-    generate_dataset_info_json
-)
+from .src.loaders import dataset_loader, download_datasets, Dataset
+from .src.splits import train_valid_test_split
+from .src.metadata import get_df_info, get_metadata, generate_dataset_info_json

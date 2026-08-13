@@ -18,20 +18,18 @@
 
 ## 📦 Installation
 
+This project uses `uv` for lightning-fast dependency and environment management.
+
 ```bash
 git clone https://github.com/kod5kod/MixTaBank.git
 cd MixTaBank
 
-# Conda Env:
-conda create -n mixtabank python=3.13
-conda activate mixtabank
-pip install -r requirements.txt
+# Create a virtual environment and install all dependencies (including dev)
+uv sync
 
-# Python's virtualenv:
-virtualenv -p python3.13 mixtabank 
-source mixtabank/bin/activate    # for mac/linux  
-.\mixtabank\Scripts\activate   # for windows    
-pip install -r requirements.txt
+# Activate the environment
+source .venv/bin/activate    # for mac/linux
+.\.venv\Scripts\activate     # for windows
 
 # iPython kernel support (optional):
 ipython kernel install --user --name=mixtabank
@@ -45,24 +43,25 @@ MixTaBank includes a convenient CLI script, `download_dataset.py`, to fetch data
 
 ### Usage
 ```bash
-python download_dataset.py --name <dataset_name> --output-dir <directory> [OPTIONS]
+python download_dataset.py --names <dataset_name> --output-dir <directory> [OPTIONS]
 ```
 
 ### Options:
-- `--name`: **(Required)** The name of the dataset (e.g., `adult-census`).
-- `--output-dir`: **(Required)** Directory to save the dataset and info JSON.
+- `--names`: One or more dataset names (e.g., `adult_census`).
+- `--all`: Download all available datasets for the source.
+- `--output-dir`: **(Required)** Directory to save the dataset subfolders.
 - `--source`: Source of the dataset (`uci` or `kaggle`). Default: `uci`.
 - `--format`: Format to save the dataset (`parquet` or `csv`). Default: `parquet`.
-- `--df-type`: Internal dataframe type (`polars` or `pandas`). Default: `polars`.
+- `--curated`: Apply curated preprocessing recipes (if available).
 - `--split`: Train, Valid, Test split fractions. Default: `0.7 0.15 0.15`.
 - `--no-split`: Flag to download the entire dataset without splitting.
 - `--seed`: Random seed for splitting. Default: `420`.
 
 ### Example
 ```bash
-python download_dataset.py --name bank-marketing --output-dir ./data/bank --format parquet
+python download_dataset.py --names bank_marketing --output-dir ./data --format parquet --curated
 ```
-This will download the `bank-marketing` dataset, split it into train, valid, and test sets, and save them as `.parquet` files alongside a `dataset_info.json`.
+This will download the `bank_marketing` dataset, apply its curated recipe, split it into train, valid, and test sets, and save them as `.parquet` files alongside an `info.json` in `./data/bank_marketing/`.
 
 ---
 
@@ -77,52 +76,80 @@ import mixtabank
 print(mixtabank.uci_dict.keys())
 print(mixtabank.kaggle_dict.keys())
 
-# Load a UCI dataset into a Polars DataFrame
-dataset, var_types, target_col, prediction_task, metadata = mixtabank.dataset_loader(
-    name="adult-census", source="uci", df_type="polars"
+# Load a dataset using the new Polars-only loader (returns a Dataset dataclass)
+ds = mixtabank.dataset_loader(
+    name="adult_census", source="uci", curated=True
 )
 
+# Access the Polars dataframe or convert to pandas
+polars_df = ds.data
+pandas_df = ds.to_pandas()
+
 # Get a detailed info summary dictionary
-# For Polars:
-info_dict = mixtabank.get_df_info_pl(dataset)
-# For Pandas:
-# info_dict = mixtabank.get_df_info_pd(dataset)
+info_dict = mixtabank.get_df_info(polars_df)
 
-# Split into train, valid, and test sets
-train, valid, test = mixtabank.pl_train_valid_test_split(dataset, splits=[0.7, 0.15, 0.15], seed=42)
+# Split into train, valid, and test sets deterministically
+train, valid, test = mixtabank.train_valid_test_split(polars_df, splits=[0.7, 0.15, 0.15], seed=420)
 
-# Generate a unified dataset_info.json dictionary
+# Generate a unified info.json dictionary
 info_json = mixtabank.generate_dataset_info_json(
-    df=dataset,
-    name="adult-census",
-    prediction_task=prediction_task,
-    target_col=target_col,
+    df=polars_df,
+    name="adult_census",
+    prediction_task=ds.prediction_task,
+    target_col=ds.target_col,
     splits_sizes=(train.height, valid.height, test.height)
 )
 ```
 
 ---
 
-## 📁 Dataset Guide
+## 📁 Original Datasets Guide (Raw)
 
-| # | Dataset name | Description | Format | Source | Link | Prediction Task | Target | # Rows | # Columns | # Num Features | # Cat Features | # Total Cardinality |
-| -- | ---------------- | ----------------------------- | -------- | -------- | ---- | --------------- | ------ | ------ | --------- | -------------- | -------------- | ----------- | 
-| 1 | `taiwanese_bankruptcy` | Taiwanese Bankruptcy Prediction | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/572/taiwanese+bankruptcy+prediction) | Binary Classification | `Bankrupt?` | 6,819 | 95 | 93 | 2 | 4 |
-| 2 | `support2` | Critically ill hospitalized patient records | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/880/support2) | Binary Classification | `death` | 9,105 | 45 | 37 | 8 | 38 |
-| 3 | `nursery` | Rank applications for nursery schools | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/76/nursery) | Multiclass Classification | `class` | 12,960 | 9 | 0 | 9 | 32 |
-| 4 | `petfinder-tab` | Pet adoption data - tabular only | CSV | Kaggle | [link](https://www.kaggle.com/competitions/petfinder-adoption-prediction/data) | Binary/multiclass Classification | `is_adopted` | 14,993 | 18 | 11 | 7 | 208 |
-| 5 | `magic` | Magic Gamma Telescope Data | CSV | Kaggle | [link](https://archive.ics.uci.edu/dataset/159/magic+gamma+telescope) | Binary | `class` | 19,020 | 11 | 10 | 1 | 2 |
-| 6 | `credit-defualt-taiwan`| Default of Credit Card Clients | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients) | Binary Classification | `Y` | 30,000 | 24 | 20 | 4 | 15 |
-| 7 | `beijing` | Beijing PM2.5 Data | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/381/beijing+pm2+5+data) | Regression | `pm2.5` | 41,757 | 11 | 10 | 1 | 4 |
-| 8 | `bank-marketing` | Bank marketing data | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/222/bank+marketing) | Binary Classification | `y` | 45,211 | 17 | 7 | 11 | 46 |
-| 9 | `adult-census` | Classic UCI census dataset | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/2/adult) | Binary Classification | `is_high_income` | 48,842 | 15 | 6 | 9 | 107 | 
-| 10 | `apartment_rent_classified`| Apartment Rent Classified | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/555/apartment+for+rent+classified) | Regression | `square_feet`, `price` | 99,826 | 14 | 4 | 10 | 4 |
-| 11 | `diabetes_130us` | Diabetes 130-US hospitals (1999-2008) | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008) | Multiclass Classification | `readmitted` | 101,766 | 48 | 11 | 35 | 2,462 |
-| 12 | `home-credit` | Home Credit Default Risk | CSV | Kaggle | [link](https://www.kaggle.com/datasets/datuman/home-credit-default-risk-train-data-tabular/) | Binary Classification | `TARGET` | 210,201 | 17 | 5 | 12 | 121 |
-| 13 | `cdc_diabetes` | Diabetes Health Indicators Dataset | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/891/diabetes) | Binary Classification | `Diabetes_binary` | 253,680 | 22 | 7 | 15 | 44 |
-| 14 | `mimic-iii` | Critical patients care information | CSV | Kaggle | [link](https://www.kaggle.com/datasets/datuman/mimic-iii-tabular-limited-features) | Multiclass Classification | `DISCHARGE_LOCATION` | 556,617 | 11 | 2 | 9 | 850 |
-| 15 | `covertype` | Forest cover types based on attributes | CSV | UCI | [link](https://archive.ics.uci.edu/dataset/31/covertype) | Multiclass Classification | `Cover_Type` | 581,012 | 55 | 11 | 44 | 93 |
-| 16 | `criteo-1m` | Criteo Ad Click Prediction (1M rows) | CSV | Kaggle | [link](https://www.kaggle.com/datasets/datuman/criteo-ad-click-limited-1m) | Binary Classification | `target` | 959,140 | 17 | 6 | 11 | 14,244 |
+These are the theoretical dimensions of the datasets exactly as they appear on UCI/Kaggle prior to any processing.
+
+| # | Dataset name | Source | Prediction Task | Target | # Rows | # Columns | # Num Features | # Cat Features | # Total Cardinality |
+| -- | ------------- | ------ | --------------- | ------ | ------ | --------- | -------------- | -------------- | ------------------- |
+| 1 | `taiwanese_bankruptcy` | UCI | Binary Classification | `Bankrupt?` | 6,819 | 95 | 93 | 2 | 4 |
+| 2 | `support2` | UCI | Binary Classification | `death` | 9,105 | 45 | 37 | 8 | 38 |
+| 3 | `nursery` | UCI | Multiclass Classification | `class` | 12,960 | 9 | 0 | 9 | 32 |
+| 4 | `petfinder_tab` | Kaggle | Binary Classification | `adopted` | 14,993 | 18 | 17 | 1 | 208 |
+| 5 | `magic` | Kaggle | Binary Classification | `class` | 19,020 | 11 | 10 | 1 | 2 |
+| 6 | `credit_default_taiwan` | UCI | Binary Classification | `default` | 30,000 | 24 | 20 | 4 | 15 |
+| 7 | `beijing_pm25` | UCI | Regression | `pm2.5` | 43,824 | 11 | 11 | 0 | 4 |
+| 8 | `bank_marketing` | UCI | Binary Classification | `y` | 45,211 | 17 | 7 | 10 | 46 |
+| 9 | `adult_census` | UCI | Binary Classification | `high_income` | 48,842 | 15 | 6 | 9 | 107 |
+| 10 | `apartment_rent_classified` | UCI | Regression | `square_feet, price` | 99,826 | 14 | 4 | 10 | 4 |
+| 11 | `diabetes_130us` | UCI | Binary Classification | `readmitted` | 101,766 | 48 | 11 | 37 | 2,462 |
+| 12 | `home_credit` | Kaggle | Binary Classification | `TARGET` | 210,201 | 17 | 5 | 12 | 121 |
+| 13 | `cdc_diabetes` | UCI | Binary Classification | `Diabetes_binary` | 253,680 | 22 | 7 | 15 | 44 |
+| 14 | `mimic_iii` | Kaggle | Multiclass Classification | `DISCHARGE_LOCATION` | 556,617 | 11 | 2 | 9 | 850 |
+| 15 | `covertype` | UCI | Multiclass Classification | `Cover_Type` | 581,012 | 55 | 11 | 44 | 93 |
+| 16 | `criteo_1m` | Kaggle | Binary Classification | `target` | 1,000,000 | 40 | 13 | 27 | 14,244 |
+
+---
+
+## 🗃️ Curated Datasets Guide (Cleaned)
+
+These are the exact dimensions of the datasets *after* applying MixTaBank's default Polars recipes (nulls dropped, columns correctly cast, and irrelevant features dropped).
+
+| # | Dataset name | Source | Prediction Task | Target | # Rows | # Columns | # Num Features | # Cat Features | # Total Cardinality |
+| -- | ------------- | ------ | --------------- | ------ | ------ | --------- | -------------- | -------------- | ------------------- |
+| 1 | `taiwanese_bankruptcy` | UCI | Binary Classification | `Bankrupt?` | 6,819 | 94 | 92 | 2 | 4 |
+| 2 | `support2` | UCI | Binary Classification | `death` | 7,816 | 30 | 20 | 10 | 38 |
+| 3 | `nursery` | UCI | Multiclass Classification | `class` | 12,960 | 9 | 0 | 9 | 32 |
+| 4 | `petfinder_tab` | Kaggle | Binary Classification | `adopted` | 14,976 | 18 | 11 | 7 | 208 |
+| 5 | `magic` | Kaggle | Binary Classification | `class` | 19,020 | 11 | 10 | 1 | 2 |
+| 6 | `credit_default_taiwan` | UCI | Binary Classification | `default` | 30,000 | 24 | 20 | 4 | 15 |
+| 7 | `beijing_pm25` | UCI | Regression | `pm2.5` | 41,757 | 11 | 10 | 1 | 4 |
+| 8 | `bank_marketing` | UCI | Binary Classification | `y` | 43,193 | 15 | 7 | 8 | 46 |
+| 9 | `adult_census` | UCI | Binary Classification | `high_income` | 47,621 | 15 | 6 | 9 | 107 |
+| 10 | `apartment_rent_classified`| UCI | Regression | `square_feet, price` | 99,826 | 14 | 4 | 10 | 4 |
+| 11 | `diabetes_130us` | UCI | Binary Classification | `readmitted` | 89,782 | 43 | 11 | 32 | 1,972 |
+| 12 | `home_credit` | Kaggle | Binary Classification | `TARGET` | 210,201 | 17 | 4 | 13 | 123 |
+| 13 | `cdc_diabetes` | UCI | Binary Classification | `Diabetes_binary` | 253,680 | 22 | 5 | 17 | 44 |
+| 14 | `mimic_iii` | Kaggle | Multiclass Classification | `DISCHARGE_LOCATION` | 556,617 | 11 | 2 | 9 | 850 |
+| 15 | `covertype` | UCI | Multiclass Classification | `Cover_Type` | 581,012 | 55 | 11 | 44 | 93 |
+| 16 | `criteo_1m` | Kaggle | Binary Classification | `target` | 959,140 | 17 | 5 | 12 | 14,244 |
 
 ---
 
@@ -133,33 +160,3 @@ If you use this library or benchmark in your work, please cite.
 ## 📄 License
 
 This project is licensed under the MIT License. See `LICENSE` for details.
-
-## Changelog
-
-## 📌 0.04
-* Added `download_dataset.py` CLI utility for downloading and splitting datasets without code.
-* Exposed primary functions in root `__init__.py`.
-* Added standard `pd_train_valid_test_split` for Pandas dataframe splitting.
-* Added `dataset_info.json` standardized metadata generation output.
-
-## 📌 0.03   2025-10-22
-* Added Kaggle datasets walkthrough 
-* Added train/test/valid splits
-* Added a quick-guide 
-
-## 📌 0.02   2025-09-14
-* Added UCI datasets walkthrough 
-* Added summary table
-* Added `get_info` function for datasets
-* Data loaded is now source agnostic
-* Data loader supports `polars` and `pandas`
-
-## 📌 0.01   2025-09-09
-* Initial release
-* Added UCI support
-* Added UCI datasets
-
-## 📌 0.00   2025-08-01
-* Added UCI dict
-* Added Kaggle support
-* Added README file

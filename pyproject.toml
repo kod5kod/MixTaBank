@@ -1,0 +1,21 @@
+[project]
+name = "mixtabank"
+version = "0.0.5"
+description = "A curated collection of heterogeneous mixed-type tabular datasets"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "ipython",
+    "ipykernel",
+    "pyarrow",
+    "polars",
+    "ucimlrepo",
+    "kagglehub",
+    "kaggle",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "ruff",
+]

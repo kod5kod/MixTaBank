@@ -1,5 +1,5 @@
 {
-    "bank-marketing": {
+    "bank_marketing": {
         "uci_id": 222,
         "name": "Bank Marketing",
         "repository_url": "https://archive.ics.uci.edu/dataset/222/bank+marketing",
@@ -10,18 +10,18 @@
         "types": {"intCols": 7, "floatCols": 0, "bool/binCols": 5, "multi-classCols": 6},
         "total_cardinality": 46
     },
-    "adult-census": {
+    "adult_census": {
         "uci_id": 2,
         "name": "Adult",
         "repository_url": "https://archive.ics.uci.edu/dataset/2/adult",
         "data_url": "https://archive.ics.uci.edu/static/public/2/adult.data",
-        "target_col": "income",
+        "target_col": "high_income",
         "prediction_task": "binary_classification",
         "shape": [48842, 15],
         "types": {"intCols": 6, "floatCols": 0, "bool/binCols": 2, "multi-classCols": 7},
         "total_cardinality": 107
     },
-    "credit-defualt-taiwan": {
+    "credit_default_taiwan": {
         "uci_id": 350,
         "name": "Default of Credit Card Clients",
         "repository_url": "https://archive.ics.uci.edu/dataset/350/default+of+credit+card+clients",
@@ -43,7 +43,7 @@
         "types": {"intCols": 7, "floatCols": 0, "bool/binCols": 15, "multi-classCols": 0},
         "total_cardinality": 30
     },
-    "census-income_full": {
+    "census_income_full": {
         "uci_id": 117,
         "name": "Census Income (KDD)",
         "repository_url": "https://archive.ics.uci.edu/dataset/117/census+income+kdd",
