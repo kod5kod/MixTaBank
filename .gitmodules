@@ -1,0 +1,3 @@
+[submodule ".wiki_repo"]
+	path = .wiki_repo
+	url = https://github.com/kod5kod/MixTaBank/wiki

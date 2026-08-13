@@ -1,6 +1,7 @@
 import kagglehub
 import pandas as pd
 import polars as pl
+from typing import Union, Optional, Tuple, List, Dict, Any
 from kagglehub import KaggleDatasetAdapter
 from pandas.api import types as pdt
 from ucimlrepo import fetch_ucirepo
@@ -8,7 +9,7 @@ from ucimlrepo import fetch_ucirepo
 import mixtabank
 
 
-def dataset_loader(name="bank-marketing", source="uci", df_type="polars"):
+def dataset_loader(name: str = "bank-marketing", source: str = "uci", df_type: str = "polars") -> Tuple[Union[pl.DataFrame, pd.DataFrame], Optional[Dict[str, str]], Union[str, List[str]], str, Optional[Dict]]:
     """
     Load a dataset from either the UCI Machine Learning Repository or Kaggle
     and convert it into a Polars or Pandas DataFrame.
@@ -392,3 +393,66 @@ def get_pl_metadata(dataframe: pl.DataFrame) -> dict:
 
     metadata["fields"] = tmp
     return metadata
+
+
+def pd_train_valid_test_split(data: pd.DataFrame, splits: List[float] = [0.7, 0.15, 0.15], seed: int = 420) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+    """Splits the pandas dataset into training, validation, and testing sets.
+
+    Args:
+        data (pd.DataFrame): The input dataset.
+        splits (List[float]): The fractions for train, valid, and test sets.
+        seed (int): Random seed for reproducibility.
+
+    Returns:
+        tuple: A tuple containing the training, validation, and testing datasets.
+    """
+    data_shuffled = data.sample(frac=1.0, random_state=seed).reset_index(drop=True)
+
+    train_frac, valid_frac, test_frac = splits
+    n_rows = len(data_shuffled)
+
+    train_end = int(n_rows * train_frac)
+    valid_end = int(n_rows * (train_frac + valid_frac))
+
+    train_df = data_shuffled.iloc[:train_end]
+    valid_df = data_shuffled.iloc[train_end:valid_end]
+    test_df = data_shuffled.iloc[valid_end:]
+
+    return train_df, valid_df, test_df
+
+
+def generate_dataset_info_json(df: Union[pl.DataFrame, pd.DataFrame], name: str, prediction_task: str, target_col: Union[str, List[str]], splits_sizes: Optional[Tuple[int, int, int]] = None) -> Dict[str, Any]:
+    """
+    Generates a dictionary containing dataset information.
+
+    Args:
+        df: Polars or Pandas DataFrame.
+        name: Name of the dataset.
+        prediction_task: The prediction task.
+        target_col: Name of the target column.
+        splits_sizes: Optional tuple of (train_size, val_size, test_size).
+
+    Returns:
+        dict: A dictionary formatted for dataset_info.json.
+    """
+    if isinstance(df, pd.DataFrame):
+        info = get_df_info_pd(df)
+    else:
+        info = get_df_info_pl(df)
+
+    train_size = splits_sizes[0] if splits_sizes else len(df)
+    val_size = splits_sizes[1] if splits_sizes else 0
+    test_size = splits_sizes[2] if splits_sizes else 0
+
+    return {
+        "name": name,
+        "task_type": prediction_task,
+        "target_col_name": target_col,
+        "train_size": train_size,
+        "val_size": val_size,
+        "test_size": test_size,
+        "catCols": info.get("catCols", []),
+        "intCols": info.get("intCols", []),
+        "floatCols": info.get("floatCols", []),
+        "boolCols": info.get("boolCols", [])
+    }
