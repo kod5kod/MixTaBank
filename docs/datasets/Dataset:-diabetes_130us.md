@@ -1,7 +1,7 @@
 # Diabetes 130-US hospitals for years 1999-2008
 
 **Source:** Uci
-**Prediction Task:** `binary_classification`
+**Prediction Task:** `multi_class_classification`
 **Target Column:** `readmitted`
 
 ## Schema & Dimensions

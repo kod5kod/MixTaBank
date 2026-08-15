@@ -191,8 +191,8 @@ def generate_dataset_info_json(df: pl.DataFrame, name: str, prediction_task: str
         
     return {
         "name": name,
-        "prediction_task": prediction_task,
-        "target_col": target_col,
+        "task_type": prediction_task,
+        "target_col_name": target_col,
         "train_size": train_size,
         "val_size": val_size,
         "test_size": test_size,

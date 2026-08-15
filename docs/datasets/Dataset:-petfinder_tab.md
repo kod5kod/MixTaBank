@@ -41,10 +41,10 @@ df = dataset.data
 ```json
 {
   "rename_columns": {
-    "y": "adopted"
+    "is_adopted": "adopted"
   },
   "cast_types": {
-    "adopted": "Utf8"
+    "is_adopted": "Utf8"
   },
   "drop_nulls": true
 }

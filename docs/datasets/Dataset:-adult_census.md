@@ -44,7 +44,7 @@ df = dataset.data
     "income": "high_income"
   },
   "replace_values": {
-    "high_income": {
+    "income": {
       ">50K": "1",
       ">50K.": "1",
       "<=50K": "0",

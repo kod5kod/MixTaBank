@@ -15,7 +15,7 @@
         "name": "Adult",
         "repository_url": "https://archive.ics.uci.edu/dataset/2/adult",
         "data_url": "https://archive.ics.uci.edu/static/public/2/adult.data",
-        "target_col": "high_income",
+        "target_col": "income",
         "prediction_task": "binary_classification",
         "shape": [48842, 15],
         "types": {"intCols": 6, "floatCols": 0, "bool/binCols": 2, "multi-classCols": 7},
@@ -71,7 +71,7 @@
         "repository_url": "https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008",
         "data_url": "https://archive.ics.uci.edu/static/public/296/diabetes+130-us+hospitals+for+years+1999-2008.data",
         "target_col": "readmitted",
-        "prediction_task": "binary_classification",
+        "prediction_task": "multi_class_classification",
         "shape": [101766, 48],
         "types": {"intCols": 11, "floatCols": 0, "bool/binCols": 9, "multi-classCols": 26},
         "total_cardinality": 2462

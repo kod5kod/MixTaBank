@@ -1,7 +1,7 @@
 # MIMIC-III Clinical Dataset Tabular Data Only
 
 **Source:** Kaggle
-**Prediction Task:** `multi-class_classification`
+**Prediction Task:** `multi_class_classification`
 **Target Column:** `DISCHARGE_LOCATION`
 
 ## Schema & Dimensions
